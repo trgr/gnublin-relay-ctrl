@@ -35,20 +35,6 @@ module.exports = {
 	});
 
     },
-    update : function(req,res){
-	var nrelay = req.body.relay;
-
-	Relay.findOne(nrelay.id).done(function(err,relay){
-	    relay.name = nrelay.name
-	    relay.address = nrelay.address
-	    relay.pins = nrelay.pins
-	    relay.save(function(err){
-		if(err)
-		    return res.send({status:"error"})
-		return res.send({status:"success"})
-	    });
-	});
-    },
     delete : function(req,res){
 	var id = req.body.id;
 	Relay.findOne(id).done(function(err,relay){
@@ -79,15 +65,16 @@ module.exports = {
 	    res.send(relay);
 	});
     },
-    saveRelay : function(req,res){
+    update : function(req,res){
 	var pca9555 = new gnublin.pca9555()
 	var relayData = req.body.relay
+	console.log(relayData);
 	pca9555.SetAddress(relayData.address);
 	Object.keys(relayData.pins).forEach(function(v,i){
-	    switch(v.state){
+	    switch(relayData.pins[i].state){
 	    case "out":
 		pca9555.PinMode(i,"out")
-		pca9555.DigitalWrite(i,v.value)
+		pca9555.DigitalWrite(i,parseInt(relayData.pins[i].value))
 		break;
 		
 	    case "in":
@@ -95,12 +82,14 @@ module.exports = {
 		break;
 	    }
 	});
-	Relay.find(relayData.id).done(function(err,relay){
+	Relay.findOne(relayData.id).done(function(err,relay){
 	    relay.name = relayData.name
 	    relay.address = relayData.address
 	    relay.pins = relayData.pins
 	    relay.save(function(err){
-		return res.send("ok");
+		if(err)
+		    return res.send({status:"error"})
+		return res.send({status:"success"})
 	    });
 	});
     
