@@ -1,0 +1,41 @@
+<%
+   var states = ["in","out"];
+%>
+<div id="message">
+  
+</div>
+<% for(var i=0; Object.keys(relays).length >i; i++) { %>
+<div class="row">
+  <div class="col-md-6">
+    <form name="<%=i%>">
+      <h3><%=relays[i].name%></h3>
+      <input type="hidden" id="relay-id" value="<%=relays[i].id%>">
+      <input type="hidden" id="pin-count" value="<%=Object.keys(relays[i].pins).length%>">
+      <table class="table">
+	<tr>
+	  <th>#</th><th>State</th><th>Value</th>
+	</tr>
+	<% for(var p=0; Object.keys(relays[i].pins).length >p; p++){ %>
+	<tr>
+	<td><%=p%>
+	<td>
+	  <select id="<%=relays[i].id%>-<%=p%>-state">
+            <% for(var s=0; Object.keys(states).length>s; s++) { %>
+            <option value="<%=states[s]%>" <%= (states[s]==relays[i].pins[p].state) ? "selected": "" %> ><%=states[s]%></option>
+            <% }%>
+	  </select>
+	<td>
+	  <select id="<%=relays[i].id%>-<%=p%>-value" <%=(relays[i].pins[p].state=="in") ? "disabled" : ""%>>
+	    <% for(var range=0; 1>=range; range++) {%>
+	    <option value="<%=range%>" <%= (range==relays[i].pins[p].value) ? "selected" : ""%>><%=range%></option>
+	    <% } %>
+	    <%=relays[i].pins[p].value%></td>
+	</tr>
+	<% } %>
+      </table>
+      <input type="submit">
+    </form>
+  </div>
+</div>
+<% } %>
+<script src="/js/relayeditform.js"></script>

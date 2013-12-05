@@ -1,0 +1,19 @@
+<% for(var i=0; Object.keys(relays).length >i; i++) { %>
+<div class="row">
+  <div class="col-md-6">
+    <h3><%=relays[i].name%></h3>
+    <table class="table">
+      <tr>
+	<th>#</th><th>State</th><th>Value</th>
+      </tr>
+      <% for(var p=0; Object.keys(relays[i].pins).length >p; p++){ %>
+      <tr>
+	<td><%=p%>
+	<td><%=relays[i].pins[p].state%></td>
+	<td><%=relays[i].pins[p].value%></td>
+      </tr>
+      <% } %>
+    </table>
+  </div>
+</div>
+<% } %>
