@@ -4,11 +4,25 @@
 <div id="message">
   
 </div>
-<% for(var i=0; Object.keys(relays).length >i; i++) { %>
+<% if(Object.keys(relays).length == 0) {%>
 <div class="row">
   <div class="col-md-6">
-    <form name="<%=i%>">
-      <h3><%=relays[i].name%></h3>
+    You haven't defined any relays. Click "create" to do so.
+  </div>
+</div>
+<% } %>
+
+<% for(var i=0; Object.keys(relays).length >i; i++) { %>
+</div>
+<div class="row">
+  <div class="col-md-6 panel panel-default">
+    <form name="<%=i%>" role="form">
+      <div class="form-group">
+	<label for="relayName">Relay Name</label>
+	<input class="form-control" type="text" id="relayName" value="<%=relays[i].name%>">
+	<label for="relayAddress">Address</label>
+	<input class="form-control" type="text" id="relayAddress" value="<%=relays[i].address%>">
+      </div>
       <input type="hidden" id="relay-id" value="<%=relays[i].id%>">
       <input type="hidden" id="pin-count" value="<%=Object.keys(relays[i].pins).length%>">
       <table class="table">
@@ -33,7 +47,7 @@
 	</tr>
 	<% } %>
       </table>
-      <input type="submit">
+      <input type="submit" value="Save"> <input id="delete" type="button" value="Delete">
     </form>
   </div>
 </div>

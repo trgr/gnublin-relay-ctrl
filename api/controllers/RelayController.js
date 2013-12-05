@@ -22,11 +22,26 @@ module.exports = {
     index : function(req,res){
 	res.view();
     },
+
+    create : function(req,res){
+	if(req.method == "GET"){
+	    return res.view();
+	}
+	var relay = req.body.relay
+	Relay.create(relay).done(function(err){
+	    if(err)
+		return res.send({status:"error"});
+	    return res.send({status:"success"});
+	});
+
+    },
     update : function(req,res){
-	var id = req.body.id;
-	var pins = req.body.pins;
-	Relay.findOne(id).done(function(err,relay){
-	    relay.pins = pins;
+	var nrelay = req.body.relay;
+
+	Relay.findOne(nrelay.id).done(function(err,relay){
+	    relay.name = nrelay.name
+	    relay.address = nrelay.address
+	    relay.pins = nrelay.pins
 	    relay.save(function(err){
 		if(err)
 		    return res.send({status:"error"})
@@ -34,7 +49,16 @@ module.exports = {
 	    });
 	});
     },
-    
+    delete : function(req,res){
+	var id = req.body.id;
+	Relay.findOne(id).done(function(err,relay){
+	    relay.destroy(function(err){
+		if(err)
+		    return res.send({status:"error"})
+		return res.send({status:"success"});
+	    });
+	});
+    },
     edit: function(req,res){
 	Relay.find().done(function(err,relays){	    
 	    res.view({layout:"",relays:relays});

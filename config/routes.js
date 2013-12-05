@@ -33,8 +33,9 @@ module.exports.routes = {
   // 
     // (This would also work if you had a file at: `/views/home.ejs`)
     '/': 'RelayController.index',
-    '/edit' : 'RelayController.edit'
-
+    '/edit' : 'RelayController.edit',
+    '/create' : 'RelayController.create'
+    
     
   /*
   // But what if you want your home page to display

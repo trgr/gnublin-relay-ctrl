@@ -1,3 +1,10 @@
+<% if(Object.keys(relays).length == 0) {%>
+<div class="row">
+  <div class="col-md-6">
+    You haven't defined any relays. Click "create" to do so.
+  </div>
+</div>
+<% } %>
 <% for(var i=0; Object.keys(relays).length >i; i++) { %>
 <div class="row">
   <div class="col-md-6">

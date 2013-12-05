@@ -33,6 +33,13 @@ $(function(){
 	    window.clearInterval(refresh);
 	    load("/edit");
 	    break;
+	case "create":
+	    //Create does not autorefresh so just clear
+	    window.clearInterval(refresh);
+	    load("/create");
+	    
+	    break;
+	    
 	}
     });
 });
